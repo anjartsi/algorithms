@@ -1,0 +1,21 @@
+extends templates/layout.pug
+
+append scripts
+	link(rel="stylesheet", type="text/css", href="styles/style.css")
+	script(src="modules/draw.js")
+block content 
+	h1 This is the home page
+	div.container-fluid
+		div.row
+			div.row
+				div.col-xs-12
+					h3 Preference Lists
+			div.row
+				div.col-xs-6
+					h4 Men
+				div.col-xs-6
+					h4 Women
+		div.row
+			div.col-xs-1
+			div.col-xs-10
+				canvas#canvas

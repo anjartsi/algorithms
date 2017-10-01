@@ -5,5 +5,5 @@ $(document).ready(function() {
 	canvas.width = $(canvas).width();
 	$(canvas).height(canvas.width / 2);
 	canvas.height = $(canvas).height();
-	ctx.fillRect(0, 0, 200, 100);
+	ctx.fillRect(10, 10, 200, 200);
 });

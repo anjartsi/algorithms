@@ -2,20 +2,42 @@ extends templates/layout.pug
 
 append scripts
 	link(rel="stylesheet", type="text/css", href="styles/style.css")
+	link(rel="stylesheet", type="text/css", href="styles/stable-marriage.css")
 	script(src="modules/draw.js")
+	script(src="stable-marriage/stable-marriage-page.js")
+	script(src="stable-marriage/stable-marriage.js")
 block content 
 	h1 This is the home page
 	div.container-fluid
 		div.row
 			div.row
-				div.col-xs-12
-					h3 Preference Lists
-			div.row
+				div.col-xs-1
+				//- The inputs
+				div.col-xs-4
+					h2 The Problem Instance
+					- var n = 5;
+					div.row
+						div.col-xs-1
+						div.col-xs-10
+							h3 Problem Size
+						div.row
+							div.col-xs-6
+								div.form-inline
+									label(for="n1") n = 
+									input(type="number" value=n min="1")#n1
+									input(type="range" min="1" max="10" value=n)#n2
+					div.row
+						div.col-xs-10
+							h3 Pereference Lists
+							div.row
+								div.col-xs-6
+									h4 Men
+									div.form-inline#preferenceMen
+										//- Men's preferences go here
+								div.col-xs-6
+									h4 Women
+									div.form-inline#preferenceWomen
+										//- Women's preferences go here
+							
 				div.col-xs-6
-					h4 Men
-				div.col-xs-6
-					h4 Women
-		div.row
-			div.col-xs-1
-			div.col-xs-10
-				canvas#canvas
+					canvas#canvas

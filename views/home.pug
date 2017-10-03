@@ -7,15 +7,15 @@ append scripts
 	script(src="stable-marriage/stable-marriage-page.js")
 	script(src="stable-marriage/stable-marriage.js")
 block content 
-	h1 This is the home page
+	h1 Stable Marriage
 	div.container-fluid
 		div.row
 			div.row
 				div.col-xs-1
 				//- The inputs
-				div.col-xs-4
+				div.col-xs-10
 					h2 The Problem Instance
-					- var n = 5;
+					- var n = 10;
 					div.row
 						div.col-xs-1
 						div.col-xs-10
@@ -32,12 +32,21 @@ block content
 							div.row
 								div.col-xs-6
 									h4 Men
-									div.form-inline#preferenceMen
-										//- Men's preferences go here
+									div#preferenceMen
+										//- div.container-fluid
+										//- 	div.row.preferenceRow
+										//- 		div.col-xs-1 
+										//- 			label m
+										//- 				sub 0
+										//- 		-for (let i = 1; i < n + 1; i++)
+										//- 			div.col-xs-1.preference w
+										//- 				sub #{i}
+									//- Men's preferences go here
 								div.col-xs-6
 									h4 Women
-									div.form-inline#preferenceWomen
+									div#preferenceWomen
 										//- Women's preferences go here
-							
-				div.col-xs-6
+			div.row
+				div.col-xs-1
+				div.col-xs-10
 					canvas#canvas

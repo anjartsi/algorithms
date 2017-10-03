@@ -1,5 +1,20 @@
+let colors = [
+				'#9039E0',
+				'#0DFDA9',
+				'#D1EA65',
+				'#86587F',
+				'#6B70D1',
+				'#ACA3BB',
+				'#3C7B82',
+				'#9DFAF8',
+				'#F84E31',
+				'#F3CDA4'
+]
+
+let dragging = false;
+let clickedPreferenceBox;
 $(document).ready(function() {
-	changeProblemSize(3);
+	changeProblemSize(4);
 	$("#n1, #n2").on("input", function(e) {
 		let n = e.target.value;
 		changeProblemSize(n);
@@ -15,32 +30,37 @@ function changeProblemSize(n) {
 	$('#n2').val(n);
 
 	if(n > previous) {
-		// Add more inputs
+		// Add more people
 		for(let i = previous; i < n; i++) {
-			addInputs(i+1);
+			addPerson(i, "m");
+			addPerson(i, "w");
+			for(let j = 0; j < n; j++) {
+				addPreferenceBox(i, j);
+			}
+		}
+		// Add extra boxes to the previous people
+		for(let i = 0; i < previous; i++) {
+			for(let j = previous; j < n; j++) {
+				addPreferenceBox(i, j);
+			}
 		}
 	}
 
 	else if (n < previous) {
-		// Remove inputs
+		// Remove people
 		for(let i = n; i < previous; i++) {
 			$('#preferenceMen').children().last().remove();
 			$('#preferenceWomen').children().last().remove();
+
+			removePreferenceBoxes(i);
 		}
 	}
-
-	let str = "";
+	
 	for(let i = 0; i < n; i++) {
-		str += (i + 1) + " ";
+		let row = $('#preferenceMen div.container-fluid row')[i];
+		row = $('#preferenceWomen div.container-fluid row')[i];
 	}
-	str = str.substr(0, str.length - 1);
 
-	for(let i = 0; i < n; i++) {
-		let input = $('#preferenceMen div.input-group input')[i];
-		$(input).val(str);
-		input = $('#preferenceWomen div.input-group input')[i];
-		$(input).val(str);
-	}
 }
 
 
@@ -48,31 +68,108 @@ function getProblemSize() {
 	return $('#preferenceMen').children().length;
 }
 
-function addInputs(i) {
-
+function addPerson(i, gender) {
+	let target = $("#preferenceMen")
+	if(gender == "w") {
+		target = $("#preferenceWomen")
+	}
 	let container = document.createElement("div");
-	container.className = "input-group"
-
-	let label = document.createElement("label");
-	label.for = "m_" + i;
-	let input = document.createElement("input");
-	input.type="text";
-	input.id = "m_" + i;
-	label.innerHTML = "m<sub>" + i + "</sub>";
-	container.appendChild(label);
-	container.appendChild(input);
-	$("#preferenceMen").append(container);
+	container.className = "container-fluid"
 	
-	container = document.createElement("div");
-	container.className = "input-group"
+	let row = document.createElement("div");
+	row.className = "row preferenceRow";
+	
+	let label = document.createElement("h4");
+	label.className = "col-xs-1";
+	label.innerHTML = gender + "<sub>" + (i+1);
+	$(label).css('color', colors[i]);
 
-	label = document.createElement("label");
-	label.for = "w_" + i;
-	input = document.createElement("input");
-	input.type="text";
-	input.id = "w_" + i;
-	label.innerHTML = "w<sub>" + i + "</sub>";
-	container.appendChild(label);
-	container.appendChild(input);
-	$("#preferenceWomen").append(container);
+	container.appendChild(row);
+	row.appendChild(label)
+	target.append(container);
+
+	addPreferenceRowEventListeners(row)
+}
+
+// Adds a preferenceBox to "person" (both man and woman) the label will read "box" + 1
+function addPreferenceBox(person, box) {
+	let men = $("#preferenceMen div.container-fluid div.row")
+	let women = $("#preferenceWomen div.container-fluid div.row")
+	
+	let boxM, boxW;
+
+	boxM =document.createElement("div");
+	boxM.className = "col-xs-1 preferenceBox";
+	boxM.innerHTML = "w<sub>" + (box+1) + "</sub>";
+	$(boxM).css('background-color', colors[box]);
+	men[person].append(boxM);
+
+	boxW =document.createElement("div");
+	boxW.className = "col-xs-1 preferenceBox";
+	boxW.innerHTML = "m<sub>" + (box+1) + "</sub>"
+	$(boxW).css('background-color', colors[box]);
+	women[person].append(boxW);
+}
+
+function removePreferenceBoxes(k) {
+	let men = $("#preferenceMen div.container-fluid div.row sub");
+	let women = $("#preferenceWomen div.container-fluid div.row sub");
+	
+
+	let str = (k -0 + 1);
+	str = "" + str;
+	console.log(str);
+	for(let i = 0; i < men.length; i++) {
+		if(men[i].innerHTML == str) {
+			let parent = $(men[i]).parent()
+			if(parent.hasClass("preferenceBox")) {
+				parent.remove();
+			}
+		}
+
+
+		if(women[i].innerHTML == str) {
+			let parent = $(women[i]).parent()
+			if(parent.hasClass("preferenceBox")) {
+				parent.remove();
+			}
+		}
+	}
+}
+
+function swapSiblings(elem1, elem2) {
+	let p1 = $(elem1).parent()[0];
+	let p2 = $(elem2).parent()[0];
+	if(elem1 == elem2 || p1 != p2) return;
+
+	let temp = $(elem1).next()[0];
+	if(temp != elem2) {
+		p1.insertBefore(elem1, elem2);
+		p1.insertBefore(elem2, temp);
+	}
+	else {
+		p1.insertBefore(elem2, elem1)
+	}
+}
+
+function addPreferenceRowEventListeners(elem) {
+
+	// $(elem).on('mouseenter', function(e) {
+	// 	clickedPreferenceBox = null
+	// 	dragging = false;	
+	// })
+	$(elem).on('mousedown', function(e) {
+		clickedPreferenceBox = e.target;
+		dragging = $(clickedPreferenceBox).hasClass("preferenceBox");
+	})
+	$(elem).on('mousemove', function(e) {
+		if(dragging && $(e.target).hasClass("preferenceBox")) {
+			swapSiblings(clickedPreferenceBox, e.target);
+		}
+	})
+	$(elem).on('mouseup', function(e) {
+		dragging = false;
+		clickedPreferenceBox = null;
+	})
+
 }

@@ -1,5 +1,6 @@
 let express = require('express');
 let app = express();
+app.set('port', (process.env.PORT || 5000));
 // Use Pug as the template engine
 app.set('view engine', 'pug');
 app.set('views', './views');
@@ -45,4 +46,6 @@ app.get('/', function(req, res) {
 app.use(express.static('public'));
 app.use(express.static('uploads'));
 
-app.listen(5000);
+app.listen(app.get('port'), function() {
+    console.log("Node app is running at localhost:" + app.get('port'))
+});

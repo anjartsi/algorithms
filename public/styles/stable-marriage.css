@@ -12,3 +12,6 @@ div.preferenceBox {
   height: 100%;
   cursor: move;
 }
+div.preferenceBox.clicked {
+  border: 4px dotted #000;
+}

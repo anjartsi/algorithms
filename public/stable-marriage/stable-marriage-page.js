@@ -1,24 +1,28 @@
 let colors = [
-				'#9039E0',
-				'#0DFDA9',
-				'#D1EA65',
-				'#86587F',
-				'#6B70D1',
-				'#ACA3BB',
-				'#3C7B82',
-				'#9DFAF8',
-				'#F84E31',
-				'#F3CDA4'
+				'#0074D9',
+				'#FF4136',
+				'#2ECC40',
+				'#FFDC00',
+				'#7FDBFF',
+				'#F012BE',
+				'#01FF70',
+				'#FF851B',
+				'#39CCCC',
+				'#B10DC9',
+				'#AAAAAA',
+				'#DDDDDD',
 ]
 
 let dragging = false;
 let clickedPreferenceBox;
 $(document).ready(function() {
-	changeProblemSize(4);
+	changeProblemSize(3);
 	$("#n1, #n2").on("input", function(e) {
 		let n = e.target.value;
 		changeProblemSize(n);
 	})
+
+	$("#btnRandomize").click(randomizeInstance);
 });
 
 
@@ -160,6 +164,7 @@ function addPreferenceRowEventListeners(elem) {
 	// })
 	$(elem).on('mousedown', function(e) {
 		clickedPreferenceBox = e.target;
+		$(clickedPreferenceBox).addClass("clicked");
 		dragging = $(clickedPreferenceBox).hasClass("preferenceBox");
 	})
 	$(elem).on('mousemove', function(e) {
@@ -169,7 +174,31 @@ function addPreferenceRowEventListeners(elem) {
 	})
 	$(elem).on('mouseup', function(e) {
 		dragging = false;
+		$(clickedPreferenceBox).removeClass("clicked");
 		clickedPreferenceBox = null;
 	})
 
+}
+
+function randomizeInstance() {
+	let n = getProblemSize();
+	let people = $(".preferenceRow");
+	let person;
+	let p;
+	let a, b;
+	for(let i = 0; i < 2 * n * n; i++) {
+		p = randomInt(0, 2 * n -1);
+		a = randomInt(1, n);
+		do {
+			b = randomInt(1, n);				
+		} while(b == a);
+		person = $(people[p]);
+
+		swapSiblings(person.children()[a], person.children()[b]);
+	}
+}
+
+
+function randomInt(min, max) {
+  return Math.floor(min + (1 + max - min) * Math.random());
 }

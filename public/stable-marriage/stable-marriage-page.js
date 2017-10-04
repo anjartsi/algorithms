@@ -23,6 +23,12 @@ $(document).ready(function() {
 	})
 
 	$("#btnRandomize").click(randomizeInstance);
+	$("#btnReset").click(function(e) {
+		let n = getProblemSize();
+		changeProblemSize(1);
+		changeProblemSize(n);
+
+	})
 });
 
 

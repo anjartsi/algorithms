@@ -128,7 +128,6 @@ function removePreferenceBoxes(k) {
 
 	let str = (k -0 + 1);
 	str = "" + str;
-	console.log(str);
 	for(let i = 0; i < men.length; i++) {
 		if(men[i].innerHTML == str) {
 			let parent = $(men[i]).parent()

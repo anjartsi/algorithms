@@ -2,63 +2,13 @@ extends templates/layout.pug
 
 append scripts
 	link(rel="stylesheet", type="text/css", href="styles/style.css")
-	link(rel="stylesheet", type="text/css", href="styles/stable-marriage.css")
-	script(src="modules/draw.js")
-	script(src="stable-marriage/stable-marriage-page.js")
-	script(src="stable-marriage/stable-marriage.js")
 block content 
-	h1 Stable Marriage
 	div.container-fluid
 		div.row
-			div.row
-				div.col-xs-1
-				//- The inputs
-				div.col-xs-10
-					h2 The Problem Instance
-					- var n = 10;
-					
-					//- Preference Lists
-					div.row
-						div.col-xs-1
-						div.col-xs-10
-							h3(style="text-align:center") Problem Size
-							div.row
-								div.col-xs-3
-								div.col-xs-3
-									div.form-inline
-										label(for="n1") n = 
-										input(type="number" value=n min="1")#n1
-								div.col-xs-4
-									div.form-inline
-										input(type="range" min="1" max="10" value=n)#n2
-					
-					//- Preference Lists
-					div.row
-						div.col-xs-1
-						div.col-xs-10
-							h3(style="text-align:center") Pereference Lists
-							div.row
-								div.col-xs-6
-									h4 Men
-									div#preferenceMen
-									//- Men's preferences go here
-								div.col-xs-6
-									h4 Women
-									div#preferenceWomen
-										//- Women's preferences go here
-					div.row
-						div.col-xs-1
-						div.col-xs-10
-							h3(style="text-align: center") Functions
-							div.row(style="text-align: center")
-								div.col-xs-2
-									button.btn.btn-block.btn-lg#btnRandomize Randomize
-								div.col-xs-2
-									button.btn.btn-block.btn-lg#btnReset Reset
-								div.col-xs-2
-									button.btn.btn-block.btn-lg.disabled Propose-Dispose
-			br
-			div.row
-				div.col-xs-1
-				div.col-xs-10
-					canvas#canvas
+			div.col-xs-1
+			div.col-xs-10
+				h1 Algorithm Visualizations
+		div.row
+			div.col-xs-1
+			div.col-xs-10
+				//- Put stuff here

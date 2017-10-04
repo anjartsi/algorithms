@@ -28,13 +28,12 @@ let upload = multer({dest: 'uploads/'});
 
 
 let nav = [
-	  {link: '/', text: 'Home'}
+		  {link: '/', text: 'Home'}
+		, {link: '/stable-marriage', text: 'Stable Marriage'}
 ];
 
 
-// Use the routes file for all routes to minimize the size of this file
-// let router = require('./router.js');
-// app.use('/', router);
+// Routes
 app.get('/', function(req, res) {
 	res.render("home.pug" , {
 		title: "Algorithm Visualization",
@@ -42,6 +41,17 @@ app.get('/', function(req, res) {
 		projects: {}
 	});
 })
+
+app.get('/stable-marriage', function(req, res) {
+	res.render("stable-marriage.pug" , {
+		title: "AV - Stable Marriage",
+		nav: nav,
+		projects: {}
+	});
+
+})
+
+
 // Use the public folder to serve all static files
 app.use(express.static('public'));
 app.use(express.static('uploads'));

@@ -122,12 +122,16 @@ function addPreferenceBox(person, box) {
 }
 
 function removePreferenceBoxes(k) {
+	// Retrieve the <sub> inside the box because that's where the number is
 	let men = $("#preferenceMen div.container-fluid div.row sub");
 	let women = $("#preferenceWomen div.container-fluid div.row sub");
 	
-
-	let str = (k -0 + 1);
+	// To remove the kth box, the number  must read (k+1) 
+	let str = (k - 0 + 1);
 	str = "" + str;
+
+	// Go through all the <sub>s
+	// If the number inside is the correct one, remove its parent
 	for(let i = 0; i < men.length; i++) {
 		if(men[i].innerHTML == str) {
 			let parent = $(men[i]).parent()
@@ -135,7 +139,6 @@ function removePreferenceBoxes(k) {
 				parent.remove();
 			}
 		}
-
 
 		if(women[i].innerHTML == str) {
 			let parent = $(women[i]).parent()
@@ -149,28 +152,37 @@ function removePreferenceBoxes(k) {
 function swapSiblings(elem1, elem2) {
 	let p1 = $(elem1).parent()[0];
 	let p2 = $(elem2).parent()[0];
-	if(elem1 == elem2 || p1 != p2) return;
-
-	let temp = $(elem1).next()[0];
-	if(temp != elem2) {
-		p1.insertBefore(elem1, elem2);
-		p1.insertBefore(elem2, temp);
-	}
-	else {
-		p1.insertBefore(elem2, elem1)
+	
+	// Only swap if the elements are different
+	// And if they have the same parent (they are in the same row)
+	let sameParent = p1 == p2;
+	let differenetElems = elem1 != elem2;
+	
+	if(sameParent && differenetElems) {
+		let temp = $(elem1).next()[0];
+		if(temp != elem2) {
+			p1.insertBefore(elem1, elem2);
+			p1.insertBefore(elem2, temp);
+		}
+		else {
+			p1.insertBefore(elem2, elem1)
+		}
 	}
 }
 
 function addPreferenceRowEventListeners(elem) {
-
-	// $(elem).on('mouseenter', function(e) {
-	// 	clickedPreferenceBox = null
-	// 	dragging = false;	
-	// })
 	$(elem).on('mousedown', function(e) {
-		clickedPreferenceBox = e.target;
-		$(clickedPreferenceBox).addClass("clicked");
-		dragging = $(clickedPreferenceBox).hasClass("preferenceBox");
+		$(".clicked").removeClass("clicked");
+		if($(e.target).hasClass("preferenceBox")) {
+			clickedPreferenceBox = e.target;
+			$(clickedPreferenceBox).addClass("clicked");
+			dragging = true;
+		}
+		else if($(e.target).parent().hasClass("preferenceBox")) {
+			clickedPreferenceBox = $(e.target).parent()[0];
+			$(clickedPreferenceBox).addClass("clicked");
+			dragging = true;
+		}
 	})
 	$(elem).on('mousemove', function(e) {
 		if(dragging && $(e.target).hasClass("preferenceBox")) {

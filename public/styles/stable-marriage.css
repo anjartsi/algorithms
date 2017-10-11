@@ -1,0 +1,19 @@
+label {
+  width: 25px;
+}
+div.row.preferenceRow {
+  height: 3em;
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+}
+div.preferenceBox {
+  border: 1px solid #000;
+  cursor: move;
+  height: 50px;
+  line-height: 50px;
+  white-space: nowrap;
+}
+div.preferenceBox.clicked {
+  border: 3px solid #000;
+}
